@@ -1,0 +1,59 @@
+body {
+  text-align: center;
+  font-family: Arial;
+  background: linear-gradient(to right, #dfe9f3, #ffffff);
+  margin-top: 50px;
+}
+
+textarea {
+  width: 300px;
+  height: 120px;
+  padding: 10px;
+  font-size: 14px;
+}
+
+button {
+  padding: 10px 15px;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+}
+
+#resultBox {
+  margin-top: 15px;
+  padding: 15px;
+  background: white;
+  display: inline-block;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+  text-align: left;
+  min-width: 250px;
+}
+
+#suggestion {
+  color: gray;
+  font-size: 13px;
+  margin-top: 10px;
+}
+select {
+  padding: 10px;
+  margin: 5px;
+  width: 220px;
+}
+#resultBox {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
