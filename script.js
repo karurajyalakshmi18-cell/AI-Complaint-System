@@ -1,7 +1,6 @@
-let complaints = [];
+let complaints = JSON.parse(localStorage.getItem("complaints")) || [];
 
 function classifyComplaint() {
-  document.getElementById("resultBox").innerHTML = "⏳ Processing complaint...";
   let text = document.getElementById("complaint").value.toLowerCase();
   let location = document.getElementById("location").value;
 
@@ -44,6 +43,31 @@ function classifyComplaint() {
     color = "gray";
   }
 
+  // AUTO STATUS PROGRESS
+  setTimeout(() => {
+    status = "In Progress";
+    updateUI();
+  }, 2000);
+
+  setTimeout(() => {
+    status = "Resolved";
+    updateUI();
+  }, 5000);
+
+  function updateUI() {
+    document.getElementById("resultBox").innerHTML =
+      "<h3 style='color:" + color + "'>" + category + "</h3>" +
+      "🏢 Department: " + department + "<br>" +
+      "📍 Location: " + location + "<br>" +
+      "⚠ Severity: " + severity + "<br>" +
+      "🆔 ID: " + complaintID + "<br>" +
+      "📌 Status: " + status + "<br>" +
+      "📨 Sent To: " + department;
+
+    document.getElementById("msg").innerText =
+      "✅ Complaint is " + status + " by " + department;
+  }
+
   let complaintObj = {
     id: complaintID,
     text: text,
@@ -55,25 +79,17 @@ function classifyComplaint() {
   };
 
   complaints.push(complaintObj);
-
-  document.getElementById("resultBox").innerHTML =
-    "<h3 style='color:" + color + "'>" + category + "</h3>" +
-    "🏢 Department: " + department + "<br>" +
-    "📍 Location: " + location + "<br>" +
-    "⚠ Severity: " + severity + "<br>" +
-    "🆔 ID: " + complaintID + "<br>" +
-    "📌 Status: " + status;
-
-  document.getElementById("msg").innerText =
-    "✅ Complaint Submitted Successfully!";
+  localStorage.setItem("complaints", JSON.stringify(complaints));
 
   updateHistory();
 }
 
 
-// HISTORY FUNCTION
+// HISTORY
 function updateHistory() {
   let list = document.getElementById("history");
+  if (!list) return;
+
   list.innerHTML = "";
 
   complaints.forEach(c => {
@@ -98,7 +114,6 @@ function clearAll() {
 function startVoice() {
   let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
   recognition.lang = "en-US";
-
   recognition.start();
 
   recognition.onresult = function(event) {
@@ -121,11 +136,3 @@ document.getElementById("complaint").addEventListener("input", function() {
   document.getElementById("suggestion").innerText =
     hint.length ? "Suggestions: " + hint.join(", ") : "";
 });
-document.getElementById("resultBox").innerHTML =
-  "<h3 style='color:" + color + "'>" + category + "</h3>" +
-  "🏢 Department: " + department + "<br>" +
-  "📍 Location: " + location + "<br>" +
-  "⚠ Severity: " + severity + "<br>" +
-  "🆔 ID: " + complaintID + "<br>" +
-  "📌 Status: " + status + "<br>" +
-  "📨 Sent To: " + department;
